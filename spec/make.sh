@@ -33,7 +33,7 @@ format)
     format_markdown
     ;;
 *)
-    format_markdown || exit 1
+    format_markdown
     build_pdf
     ;;
 esac
