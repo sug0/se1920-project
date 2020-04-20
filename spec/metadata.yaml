@@ -1,0 +1,22 @@
+---
+title:
+    'Especificação do projeto de programação (CC4040) (1920)'
+author:
+    - Tiago Carvalho (201605259)
+
+lang: pt
+babel-lang: portuguese
+titlepage: yes
+numbersections: yes
+listings: yes
+footer-left: CC4040 1920
+
+abstract: |
+    ganda cena mano
+
+header-includes:
+    - \renewcommand{\figurename}{Fig.}
+    - \usepackage{pdfpages}
+    - \usepackage{caption}
+...
+
