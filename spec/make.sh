@@ -19,7 +19,7 @@ build_pdf() {
 
 format_markdown() {
     echo Running pandoc to lint and format the text
-    pandoc --atx-headers -f markdown -t markdown -o temp.md $TARGET.md
+    pandoc --atx-headers -f markdown -t markdown -o temp.md $TARGET.md || exit 1
     rm $TARGET.md
     mv temp.md $TARGET.md
 }
