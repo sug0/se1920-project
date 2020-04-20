@@ -9,10 +9,19 @@ babel-lang: portuguese
 titlepage: yes
 numbersections: yes
 listings: yes
-footer-left: CC4040 1920
+footer-left: Sistemas Embutidos 2019/20
 
 abstract: |
-    ganda cena mano
+    No jogo Minecraft, da Mojang AB @mojang, existe um ciclo dia-noite, bem como luz
+    proveniente de outras fontes não solares, como lanternas. Neste projeto,
+    proponho fazer uma modificação do jogo que faz "*hijack*" destes valores,
+    e os envia para um *broker* remoto MQTT @mqtt, do qual dispositivos físicos
+    (e.g. Arduino) podem ler, de modo a ajustar o nível de luz de uma(s)
+    lâmpada(s) que se encontre(m) no mesmo quarto do jogador.
+
+    Mais, será possível usar o acelerómetro de um telemóvel Android para controlar
+    uma personagem dentro do jogo. A ideia do projeto foi inspirada num dos exemplos
+    disponibilizados pelos docentes da unidade curricular, no Moodle.
 
 header-includes:
     - \renewcommand{\figurename}{Fig.}
