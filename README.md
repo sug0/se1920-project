@@ -1,2 +1,3 @@
-# se1920-project
-Codificação e especificação do projeto de Sistemas Embutidos
+# Sistemas Embutidos 2019/2020
+
+Aluno 201605259
