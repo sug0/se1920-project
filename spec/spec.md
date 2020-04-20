@@ -1,4 +1,4 @@
-# Objectivos
+# Objetivos
 
 asdf
 
@@ -6,7 +6,7 @@ asdf
 
 asdf
 
-# Arquitectura
+# Arquitetura
 
 asdf
 
