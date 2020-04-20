@@ -1,6 +1,6 @@
 # Objectivos
 
-asdf @example
+asdf
 
 # Requisitos
 
