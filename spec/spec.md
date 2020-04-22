@@ -6,8 +6,8 @@ Minecraft sejam consumíveis por um dispositívo físico que os interprete,
 e os use para cotrolar o nível de luz de uma ou várias lâmpadas no
 "mundo real".
 
-Além disso, espero que seja possível usar o giroscópio de um telemóvel
-Android para controlar certos aspetos do jogo.
+Além disso, espero que seja possível usar o giroscópio e acelerómetro de
+um telemóvel Android para controlar certos aspetos do jogo.
 
 # Requisitos
 
@@ -22,9 +22,9 @@ Minecraft `\newline`{=tex} $\Box$ Dispositivo Arduino `\newline`{=tex}
 $\Box$ Lâmpada LED `\newline`{=tex}$\CheckedBox$ *Breadboard*
 `\newline`{=tex}$\Box$ Fios para interligar os componentes digitais
 
-Devido à falta de alguns componentes necessários, nomeadamente relativos
-ao output da luz no "mundo real", seria simulá-los , num ambiente
-Arduino virtual @virtual_arduino. Este requisito será necessário
-discutir com os docentes.
+Devido à falta de alguns componentes, nomeadamente relativos ao *output*
+da luz no "mundo real", seria necessário simulá-los num ambiente Arduino
+virtual @virtual_arduino. Estes requisitos teriam de ser discutidos com
+os docentes.
 
 # Referências
