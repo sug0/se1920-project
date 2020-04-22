@@ -11,14 +11,20 @@ Android para controlar certos aspetos do jogo.
 
 # Requisitos
 
-Serão necessários os seguintes componentes, tanto de *software* como
+Serão necessários os seguintes componentes, tanto de *software*, como
 *hardware*:
 
 $\CheckedBox$ Telemóvel com Android `\newline`{=tex} $\CheckedBox$
 Raspberry Pi ou dispositivo equivalente, que seja capaz de hospedar um
-*broker* MQTT `\newline`{=tex} $\CheckedBox$ SDK não oficial para
-modificar o jogo Minecraft `\newline`{=tex} $\Box$ Dispositivo arduino
-`\newline`{=tex} $\Box$ Lâmpada LED `\newline`{=tex}$\CheckedBox$
-*Breadboard* `\newline`{=tex}$\Box$ Fios para interligar os componentes
+*broker* MQTT `\newline`{=tex} $\CheckedBox$ Jogo Minecraft
+`\newline`{=tex}$\CheckedBox$ SDK não oficial para modificar o jogo
+Minecraft `\newline`{=tex} $\Box$ Dispositivo Arduino `\newline`{=tex}
+$\Box$ Lâmpada LED `\newline`{=tex}$\CheckedBox$ *Breadboard*
+`\newline`{=tex}$\Box$ Fios para interligar os componentes digitais
+
+Devido à falta de alguns componentes necessários, nomeadamente relativos
+ao output da luz no "mundo real", seria simulá-los , num ambiente
+Arduino virtual @virtual_arduino. Este requisito será necessário
+discutir com os docentes.
 
 # Referências
