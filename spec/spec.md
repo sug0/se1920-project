@@ -18,19 +18,7 @@ $\CheckedBox$ Telemóvel com Android `\newline`{=tex} $\CheckedBox$
 Raspberry Pi ou dispositivo equivalente, que seja capaz de hospedar um
 *broker* MQTT `\newline`{=tex} $\CheckedBox$ SDK não oficial para
 modificar o jogo Minecraft `\newline`{=tex} $\Box$ Dispositivo arduino
-`\newline`{=tex} $\Box$ Lâmpada LED `\newline `{=tex}$\CheckedBox$
+`\newline`{=tex} $\Box$ Lâmpada LED `\newline`{=tex}$\CheckedBox$
 *Breadboard* `\newline`{=tex}$\Box$ Fios para interligar os componentes
-
-# Arquitetura
-
-asdf
-
-# Implementação
-
-limitações de falta de hardware, usar simulador arduino(?)
-
-# Resultados
-
-asdf
 
 # Referências
