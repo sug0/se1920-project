@@ -27,4 +27,21 @@ da luz no "mundo real", seria necessário simulá-los num ambiente Arduino
 virtual @virtual_arduino. Estes requisitos teriam de ser discutidos com
 os docentes.
 
+# Arquitetura
+
+```{=tex}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth,page=1]{arch.pdf}
+    \caption{A arquitetura do sistema}
+\end{figure}
+```
+A imagem acima ilustra a arquitetura a implementar. Eis uma pequena
+legenda:
+
+-   Amarelo -- a lâmpada a controlar
+-   Azul -- o dispositivo Arduino
+-   Vermelho -- o Raspberry Pi
+-   Verde -- o jogo Minecraft
+
 # Referências

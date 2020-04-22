@@ -24,8 +24,7 @@ abstract: |
     exemplos disponibilizados pelos docentes da unidade curricular, no Moodle.
 
 header-includes:
-    - \renewcommand{\figurename}{Fig.}
-    - \usepackage{pdfpages}
+    - \usepackage{graphicx}
     - \usepackage{caption}
     - \usepackage{wasysym}
 ...
