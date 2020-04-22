@@ -19,13 +19,14 @@ abstract: |
     (e.g. Arduino) podem ler, de modo a ajustar o nível de luz de uma(s)
     lâmpada(s) que se encontre(m) no mesmo quarto do jogador.
 
-    Mais, será possível usar o acelerómetro de um telemóvel Android para controlar
-    uma personagem dentro do jogo. A ideia do projeto foi inspirada num dos exemplos
-    disponibilizados pelos docentes da unidade curricular, no Moodle.
+    Mais, será possível usar o acelerómetro e giroscópio de um telemóvel Android para
+    controlar uma personagem dentro do jogo. A ideia do projeto foi inspirada num dos
+    exemplos disponibilizados pelos docentes da unidade curricular, no Moodle.
 
 header-includes:
     - \renewcommand{\figurename}{Fig.}
     - \usepackage{pdfpages}
     - \usepackage{caption}
+    - \usepackage{wasysym}
 ...
 
