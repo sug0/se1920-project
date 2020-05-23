@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private final AtomicReference<MqttAndroidClient> atomicMqttClient = new AtomicReference<>();
     private final AtomicBoolean mqttLoaded = new AtomicBoolean();
 
+    // mqtt consts
     private static final String MQTT_CLIENT_PREFIX = "sugo";
     private static final String MQTT_BROKER = "tcp://broker.hivemq.com:1883";
     private static final String MQTT_TOPIC = "minecraft/fcup/accelerometer-data";
@@ -29,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
     private SensorManager sensorManager;
     private Sensor gyroscopeSensor;
     private SensorEventListener gyroscopeEventListener;
+
+    // gyroscope counter
+    private int gyroscopeCounter = 0;
+    private static final int GYRO_PUBLISH_FREQ = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,16 +64,25 @@ public class MainActivity extends AppCompatActivity {
         gyroscopeEventListener = new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
-                final float[] sensorValues = event.values;
+                if (gyroscopeCounter == 0) {
+                    // fetch event values
+                    final float[] sensorFloatValues = event.values;
+                    final int[] sensorIntValues = {
+                        (int)sensorFloatValues[0],
+                        (int)sensorFloatValues[1],
+                        (int)sensorFloatValues[2],
+                    };
 
-                final TextView textView = findViewById(R.id.gyroDebug);
-                final String debugText = Arrays.toString(sensorValues);
+                    final TextView textView = findViewById(R.id.gyroDebug);
+                    final String debugText = Arrays.toString(sensorIntValues);
 
-                // update debug view
-                textView.setText(debugText);
+                    // update debug view
+                    textView.setText(debugText);
 
-                // send data to mqtt
-                sendMqtt(debugText);
+                    // send data to mqtt
+                    sendMqtt(debugText);
+                }
+                gyroscopeCounter = (gyroscopeCounter + 1) % GYRO_PUBLISH_FREQ;
             }
 
             @Override
