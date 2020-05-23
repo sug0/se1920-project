@@ -1,0 +1,16 @@
+[
+    {
+        "modid": "selightlevel",
+        "name": "Embedded Systems Light Level",
+        "description": "A mod made for a class.",
+        "version": "${version}",
+        "mcversion": "${mcversion}",
+        "url": "",
+        "updateUrl": "",
+        "authorList": ["Tiago Carvalho <up201605259@fc.up.pt>"],
+        "credits": "Whomst'd've.",
+        "logoFile": "",
+        "screenshots": [],
+        "dependencies": []
+    }
+]
