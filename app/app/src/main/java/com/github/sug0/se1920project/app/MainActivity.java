@@ -37,28 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
         // try to connect to message broker
         MqttAndroidClient mqttClient = new MqttAndroidClient(getApplicationContext(), MQTT_BROKER, generateClientId());
-        mqttClient.setCallback(new MqttCallbackExtended() {
-            @Override
-            public void connectComplete(boolean reconnect, String serverURI) {
-                mqttLoaded.set(true);
-            }
-
-            @Override
-            public void connectionLost(Throwable cause) {
-                mqttLoaded.set(false);
-            }
-
-            @Override
-            public void messageArrived(String topic, MqttMessage message) throws Exception {
-                // do nothing for now
-            }
-
-            @Override
-            public void deliveryComplete(IMqttDeliveryToken token) {
-                // do nothing for now
-            }
-        });
         atomicMqttClient.set(mqttClient);
+        installMqttCallback();
         connectMqtt();
 
         // load gyroscope
@@ -88,20 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 textView.setText(debugText);
 
                 // send data to mqtt
-                if (mqttLoaded.get()) {
-                    MqttMessage message = new MqttMessage();
-                    message.setQos(0);
-                    message.setRetained(false);
-                    message.setPayload(debugText.getBytes());
-                    try {
-                        MqttAndroidClient mqttClient = atomicMqttClient.get();
-                        if (mqttClient != null) {
-                            mqttClient.publish(MQTT_TOPIC, message);
-                        }
-                    } catch (MqttException e) {
-                        toast("Failed to publish to MQTT: " + e);
-                    }
-                }
+                sendMqtt(debugText);
             }
 
             @Override
@@ -123,6 +90,41 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         disconnectMqtt();
         sensorManager.unregisterListener(gyroscopeEventListener);
+    }
+
+    private void installMqttCallback() {
+        MqttAndroidClient mqttClient = atomicMqttClient.get();
+        if (mqttClient == null) {
+            toast("The hell?");
+            try {
+                finalize();
+            } catch (Throwable e) {
+                toast("Failed to finalize: " + e);
+            } finally {
+                return;
+            }
+        }
+        mqttClient.setCallback(new MqttCallbackExtended() {
+            @Override
+            public void connectComplete(boolean reconnect, String serverURI) {
+                mqttLoaded.set(true);
+            }
+
+            @Override
+            public void connectionLost(Throwable cause) {
+                mqttLoaded.set(false);
+            }
+
+            @Override
+            public void messageArrived(String topic, MqttMessage message) throws Exception {
+                // do nothing for now
+            }
+
+            @Override
+            public void deliveryComplete(IMqttDeliveryToken token) {
+                // do nothing for now
+            }
+        });
     }
 
     private void connectMqtt() {
@@ -166,6 +168,23 @@ public class MainActivity extends AppCompatActivity {
             }
         } catch (MqttException e) {
             toast("Failed to disconnect from MQTT: " + e);
+        }
+    }
+
+    private void sendMqtt(String payload) {
+        if (mqttLoaded.get()) {
+            MqttMessage message = new MqttMessage();
+            message.setQos(0);
+            message.setRetained(false);
+            message.setPayload(payload.getBytes());
+            try {
+                MqttAndroidClient mqttClient = atomicMqttClient.get();
+                if (mqttClient != null) {
+                    mqttClient.publish(MQTT_TOPIC, message);
+                }
+            } catch (MqttException e) {
+                toast("Failed to publish to MQTT: " + e);
+            }
         }
     }
 
