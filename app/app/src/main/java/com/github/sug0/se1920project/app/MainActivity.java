@@ -131,7 +131,17 @@ public class MainActivity extends AppCompatActivity {
         try {
             MqttAndroidClient mqttClient = atomicMqttClient.get();
             if (mqttClient != null) {
-                mqttClient.connect(connectOptions);
+                mqttClient.connect(connectOptions, null, new IMqttActionListener() {
+                    @Override
+                    public void onSuccess(IMqttToken asyncActionToken) {
+                        // nothing
+                    }
+
+                    @Override
+                    public void onFailure(IMqttToken asyncActionToken, Throwable e) {
+                        toast("Failed to connect to MQTT :" + e);
+                    }
+                });
             }
         } catch (MqttException e) {
             toast("Failed to connect to MQTT: " + e);
@@ -142,7 +152,17 @@ public class MainActivity extends AppCompatActivity {
         try {
             MqttAndroidClient mqttClient = atomicMqttClient.get();
             if (mqttClient != null) {
-                mqttClient.disconnect(60*1000);
+                mqttClient.disconnect(60 * 1000, getApplicationContext(), new IMqttActionListener() {
+                    @Override
+                    public void onSuccess(IMqttToken asyncActionToken) {
+                        // nothing
+                    }
+
+                    @Override
+                    public void onFailure(IMqttToken asyncActionToken, Throwable e) {
+                        toast("Failed to disconnect to MQTT :" + e);
+                    }
+                });
             }
         } catch (MqttException e) {
             toast("Failed to disconnect from MQTT: " + e);
