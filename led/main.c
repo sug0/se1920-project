@@ -42,17 +42,17 @@ void smooth_led_set(int x, int y) {
     x = x == 0 ? 0 : x * 64 - 1;
     y = y == 0 ? 0 : y * 64 - 1;
     if (x < y) {
-        while (x < y) {
+        do {
             pwmWrite(1, x);
             delay(1);
             x++;
-        }
+        } while (x < y);
     } else {
-        while (x > y) {
+        do {
             pwmWrite(1, x);
             delay(1);
             x--;
-        }
+        } while (x > y);
     }
 }
 
