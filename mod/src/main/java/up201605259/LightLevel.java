@@ -9,35 +9,40 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.world.World;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraft.util.math.BlockPos;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 @Mod(modid = LightLevel.MODID, version = LightLevel.VERSION)
 public class LightLevel {
     public static final String MODID = "selightlevel";
     public static final String VERSION = "1.0";
 
-    public static Logger logger = LogManager.getLogger(MODID);
+    private static Logger LOGGER = LogManager.getLogger(MODID);
     
     @EventHandler
     public void preInit(FMLPreInitializationEvent e) {
-        logger.info("The bomb has been planted.");
+        LOGGER.info("The bomb has been planted.");
         MinecraftForge.EVENT_BUS.register(new LightLevel.Handler());
     }
 
     @EventHandler
     public void serverStopping(FMLServerStoppingEvent e) {
-        logger.info("The bomb has been defused.");
+        LOGGER.info("The bomb has been defused.");
         MQTT.shutdown();
     }
 
@@ -54,11 +59,55 @@ public class LightLevel {
                     );
                     MqttConnectOptions opts = new MqttConnectOptions();
                     opts.setConnectionTimeout(60);
-                    logger.info("Connecting to MQTT...");
+                    LOGGER.info("Connecting to MQTT...");
                     INSTANCE.connect(opts);
+                    INSTANCE.subscribe("minecraft/fcup/accelerometer-data", new IMqttMessageListener() {
+                        final Pattern pt = Pattern.compile("\\[(-?\\d+),\\s?(-?\\d+),\\s?(-?\\d+)\\]");
+
+                        @Override
+                        public void messageArrived(String topic, MqttMessage message) {
+                            final Minecraft mc = Minecraft.getMinecraft();
+                            final EntityPlayerSP player = mc.player;
+                            if (player == null) {
+                                return;
+                            }
+
+                            final Matcher m = pt.matcher(message.toString());
+                            if (!m.find()) {
+                                return;
+                            }
+
+                            final int valUp = Integer.parseInt(m.group(2));
+                            final double valDown = Double.parseDouble(m.group(3));
+
+                            switch (valUp) {
+                            case 9:
+                            case 10:
+                            case -9:
+                            case -10:
+                                break;
+                            default:
+                                final EnumFacing facing = player.getAdjustedHorizontalFacing();
+                                switch (facing) {
+                                case NORTH:
+                                    player.setPositionAndUpdate(player.posX, player.posY, player.posZ - valDown);
+                                    break;
+                                case SOUTH:
+                                    player.setPositionAndUpdate(player.posX, player.posY, player.posZ + valDown);
+                                    break;
+                                case EAST:
+                                    player.setPositionAndUpdate(player.posX + valDown, player.posY, player.posZ);
+                                    break;
+                                case WEST:
+                                    player.setPositionAndUpdate(player.posX - valDown, player.posY, player.posZ);
+                                    break;
+                                }
+                            }
+                        }
+                    });
                 }
             } catch (Exception e) {
-                logger.warn(String.format("Failed to connect to MQTT broker: %s", e));
+                LOGGER.warn(String.format("Failed to connect to MQTT broker: %s", e));
                 return;
             }
 
@@ -69,7 +118,7 @@ public class LightLevel {
                 message.setQos(0);
                 INSTANCE.publish(topic, message);
             } catch (Exception e) {
-                logger.warn(String.format("Failed to publish message to MQTT broker: %s", e));
+                LOGGER.warn(String.format("Failed to publish message to MQTT broker: %s", e));
             }
         }
 
@@ -79,7 +128,7 @@ public class LightLevel {
                     INSTANCE.disconnect();
                     INSTANCE = null;
                 } catch (Exception e) {
-                    logger.warn(String.format("Failed to stop MQTT client: %s", e));
+                    LOGGER.warn(String.format("Failed to stop MQTT client: %s", e));
                 }
             }
         }
@@ -95,13 +144,13 @@ public class LightLevel {
 
         @SubscribeEvent
         public void onClientTick(TickEvent.ClientTickEvent e) {
-            Minecraft mc = Minecraft.getMinecraft();
+            final Minecraft mc = Minecraft.getMinecraft();
 
-            EntityPlayerSP player = mc.player;
-            World world = mc.world;
+            final EntityPlayerSP player = mc.player;
+            final World world = mc.world;
 
-            GuiScreen gui = mc.currentScreen;
-            boolean gamePaused = (gui != null && gui.doesGuiPauseGame());
+            final GuiScreen gui = mc.currentScreen;
+            final boolean gamePaused = (gui != null && gui.doesGuiPauseGame());
 
             if (gamePaused || world == null || player == null) {
                 return;
